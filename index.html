@@ -1,0 +1,3867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0B6E69">
+<title>NurseMate</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root{
+--primary:#0B6E69;
+--dark:#07534F;
+--light:#E8F6F4;
+--bg:#F5F8F9;
+--white:#fff;
+--text:#17202A;
+--muted:#6B7280;
+--border:#E4E8EA;
+--danger:#D64545;
+--success:#16855B;
+--warning:#B7791F;
+--shadow:0 8px 30px rgba(20,40,45,.07)
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Inter,Arial,sans-serif;
+background:var(--bg);
+color:var(--text);
+min-height:100vh
+}
+
+button,input,textarea,select{font-family:inherit}
+button{cursor:pointer}
+
+.screen{display:none}
+.screen.active{display:block}
+
+.auth-screen{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:linear-gradient(145deg,#EAF7F5,#fff)
+}
+
+.auth-container{width:100%;max-width:430px}
+
+.brand{text-align:center;margin-bottom:25px}
+
+.brand-mark{
+width:65px;height:65px;margin:auto;
+border-radius:18px;
+background:var(--primary);
+color:#fff;
+display:flex;align-items:center;justify-content:center;
+font-size:27px
+}
+
+.brand-name{font-size:28px;font-weight:800;margin-top:13px}
+.brand-subtitle{font-size:12px;color:var(--muted);margin-top:5px}
+
+.auth-card{
+background:#fff;
+border-radius:22px;
+padding:27px;
+box-shadow:var(--shadow)
+}
+
+.auth-card h1{font-size:23px;margin-bottom:7px}
+
+.auth-description{
+font-size:13px;
+color:var(--muted);
+line-height:1.6;
+margin-bottom:22px
+}
+
+.form-group{margin-bottom:15px}
+
+label{
+display:block;
+font-size:12px;
+font-weight:700;
+margin-bottom:7px
+}
+
+.input-wrapper{position:relative}
+
+.input,textarea,select{
+width:100%;
+border:1px solid var(--border);
+border-radius:11px;
+outline:none;
+background:#fff;
+color:var(--text);
+font-size:14px
+}
+
+.input{height:50px;padding:0 14px}
+
+textarea{
+min-height:140px;
+padding:14px;
+resize:vertical;
+line-height:1.6
+}
+
+select{height:48px;padding:0 12px}
+
+.input:focus,textarea:focus,select:focus{
+border-color:var(--primary);
+box-shadow:0 0 0 3px rgba(11,110,105,.08)
+}
+
+.password-input{padding-right:48px}
+
+.password-toggle{
+position:absolute;
+right:4px;
+top:4px;
+width:42px;height:42px;
+border:none;background:none;
+color:#7A838B
+}
+
+.primary-button{
+width:100%;
+height:50px;
+border:0;
+border-radius:11px;
+background:var(--primary);
+color:#fff;
+font-weight:700;
+font-size:14px
+}
+
+.primary-button:disabled{
+opacity:.6;
+cursor:not-allowed
+}
+
+.secondary-button{
+width:100%;
+height:50px;
+margin-top:10px;
+border:1px solid var(--border);
+border-radius:11px;
+background:#fff;
+font-weight:600
+}
+
+.text-button{
+border:0;
+background:none;
+color:var(--primary);
+font-weight:700
+}
+
+.message{
+display:none;
+padding:12px;
+border-radius:10px;
+background:var(--light);
+color:var(--dark);
+font-size:12px;
+line-height:1.5;
+margin-bottom:15px
+}
+
+.auth-footer{
+text-align:center;
+margin-top:18px;
+font-size:12px;
+color:var(--muted)
+}
+
+.app-header{
+position:sticky;
+top:0;
+z-index:30;
+background:#fff;
+border-bottom:1px solid var(--border);
+padding:14px 17px
+}
+
+.header-inner{
+max-width:900px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+.header-brand{
+display:flex;
+align-items:center;
+gap:10px
+}
+
+.header-logo{
+width:40px;height:40px;
+border-radius:11px;
+background:var(--primary);
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+.header-title{font-size:17px;font-weight:800}
+
+.header-subtitle{
+font-size:9px;
+color:var(--muted);
+margin-top:2px
+}
+
+.profile-button{
+width:40px;height:40px;
+border:0;border-radius:50%;
+background:var(--light);
+color:var(--primary)
+}
+
+.main{
+max-width:900px;
+margin:auto;
+padding:23px 17px 100px
+}
+
+.greeting{margin-bottom:20px}
+
+.greeting-small{
+font-size:12px;
+color:var(--muted);
+margin-bottom:5px
+}
+
+.greeting h1{font-size:25px}
+
+.search-box{
+position:relative;
+margin-bottom:22px
+}
+
+.search-box i{
+position:absolute;
+left:15px;
+top:17px;
+color:#8A939B
+}
+
+.search-box input{
+width:100%;
+height:50px;
+border:0;
+outline:0;
+border-radius:13px;
+padding:0 15px 0 42px;
+box-shadow:var(--shadow);
+font-size:13px
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+margin-bottom:25px
+}
+
+.stat-card{
+background:#fff;
+padding:17px;
+border-radius:15px;
+box-shadow:var(--shadow)
+}
+
+.stat-icon,.study-icon,.note-icon,.admin-icon{
+width:42px;height:42px;
+border-radius:12px;
+background:var(--light);
+color:var(--primary);
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+.stat-icon{width:36px;height:36px;margin-bottom:10px}
+
+.stat-value{font-size:21px;font-weight:800}
+
+.stat-label{
+font-size:10px;
+color:var(--muted);
+margin-top:3px
+}
+
+.section-title{
+font-size:18px;
+margin-bottom:13px
+}
+
+.study-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px
+}
+
+.study-card{
+background:#fff;
+border:0;
+border-radius:16px;
+padding:17px;
+text-align:left;
+box-shadow:var(--shadow)
+}
+
+.study-card:active{transform:scale(.98)}
+
+.study-icon{margin-bottom:13px}
+
+.study-card h3{
+font-size:14px;
+margin-bottom:5px
+}
+
+.study-card p{
+font-size:11px;
+line-height:1.5;
+color:var(--muted)
+}
+
+.back-button{
+border:0;
+background:none;
+color:var(--primary);
+font-weight:700;
+font-size:13px;
+margin-bottom:19px
+}
+
+.page-title{font-size:24px;margin-bottom:6px}
+
+.page-description{
+font-size:13px;
+color:var(--muted);
+line-height:1.6;
+margin-bottom:20px
+}
+
+.content-card{
+background:#fff;
+border-radius:16px;
+padding:19px;
+box-shadow:var(--shadow);
+margin-bottom:13px
+}
+
+.content-card h3{
+font-size:16px;
+margin-bottom:9px
+}
+
+.content-card p{
+font-size:13px;
+color:#59636D;
+line-height:1.7
+}
+
+.note-card{
+width:100%;
+display:flex;
+align-items:center;
+gap:13px;
+background:#fff;
+border:0;
+border-radius:15px;
+padding:16px;
+text-align:left;
+box-shadow:var(--shadow);
+margin-bottom:11px
+}
+
+.note-info{min-width:0}
+
+.note-title{
+font-size:14px;
+font-weight:700;
+margin-bottom:4px
+}
+
+.note-course{
+font-size:10px;
+color:var(--muted)
+}
+
+.empty{
+background:#fff;
+border-radius:15px;
+padding:35px 20px;
+text-align:center;
+font-size:13px;
+color:var(--muted)
+}
+
+.admin-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+margin-bottom:20px
+}
+
+.admin-card{
+border:0;
+background:#fff;
+border-radius:16px;
+padding:18px;
+text-align:left;
+box-shadow:var(--shadow)
+}
+
+.admin-card .admin-icon{margin-bottom:12px}
+
+.admin-card h3{
+font-size:14px;
+margin-bottom:4px
+}
+
+.admin-card p{
+font-size:10px;
+color:var(--muted);
+line-height:1.5
+}
+
+.admin-form{display:none}
+.admin-form.active{display:block}
+
+.form-actions{
+display:flex;
+gap:9px;
+margin-top:15px
+}
+
+.form-actions button{flex:1}
+
+.file-upload{
+border:2px dashed #C9DAD8;
+border-radius:14px;
+padding:22px 15px;
+text-align:center;
+background:#F9FCFC;
+margin-bottom:15px
+}
+
+.file-upload-icon{
+font-size:30px;
+color:var(--primary);
+margin-bottom:10px
+}
+
+.file-upload p{
+font-size:12px;
+color:var(--muted);
+line-height:1.5
+}
+
+.file-input{
+width:100%;
+margin-top:14px;
+padding:12px;
+border:1px solid var(--primary);
+border-radius:10px;
+background:#fff;
+color:var(--primary);
+font-size:12px;
+font-weight:700
+}
+
+.file-input::file-selector-button{
+border:0;
+border-radius:8px;
+padding:10px 13px;
+margin-right:9px;
+background:var(--primary);
+color:#fff;
+font-family:inherit;
+font-weight:700
+}
+
+.selected-file{
+display:none;
+padding:10px;
+border-radius:9px;
+background:var(--light);
+color:var(--dark);
+font-size:11px;
+margin-top:10px;
+word-break:break-word
+}
+
+.progress-wrap{
+display:none;
+margin-top:13px
+}
+
+.progress-track{
+height:7px;
+background:#E5EAEA;
+border-radius:10px;
+overflow:hidden
+}
+
+.progress-bar{
+height:100%;
+width:0;
+background:var(--primary);
+transition:.2s
+}
+
+.progress-text{
+font-size:10px;
+color:var(--muted);
+margin-top:5px
+}
+
+.file-actions{
+display:none;
+margin-top:12px
+}
+
+.open-file-button{
+display:block;
+width:100%;
+padding:12px;
+border:0;
+border-radius:10px;
+background:var(--primary);
+color:#fff;
+font-weight:700;
+font-size:12px
+}
+
+.manage-note{
+background:#fff;
+border-radius:15px;
+padding:15px;
+margin-bottom:11px;
+box-shadow:var(--shadow)
+}
+
+.manage-note-top{
+display:flex;
+gap:12px;
+align-items:flex-start
+}
+
+.manage-note-info{
+flex:1;
+min-width:0
+}
+
+.manage-note-title{
+font-size:14px;
+font-weight:800;
+line-height:1.4
+}
+
+.manage-note-meta{
+font-size:10px;
+color:var(--muted);
+margin-top:5px;
+line-height:1.5
+}
+
+.status-badge{
+display:inline-block;
+padding:5px 8px;
+border-radius:20px;
+font-size:9px;
+font-weight:800;
+margin-top:8px
+}
+
+.status-published{
+background:#EAF8F1;
+color:var(--success)
+}
+
+.status-draft{
+background:#FFF6DD;
+color:var(--warning)
+}
+
+.manage-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:13px
+}
+
+.manage-actions button{
+height:38px;
+border-radius:9px;
+font-size:11px;
+font-weight:700;
+border:1px solid var(--border);
+background:#fff
+}
+
+.manage-actions .publish-btn{
+color:var(--primary);
+border-color:#B9DAD7
+}
+
+.manage-actions .delete-btn{
+color:var(--danger);
+border-color:#F0CACA
+}
+
+.edit-panel{
+display:none;
+margin-top:13px;
+padding-top:13px;
+border-top:1px solid var(--border)
+}
+
+.edit-panel.active{display:block}
+
+.student-card{
+background:#fff;
+border-radius:15px;
+padding:16px;
+box-shadow:var(--shadow);
+margin-bottom:11px
+}
+
+.student-top{
+display:flex;
+align-items:center;
+gap:12px
+}
+
+.student-avatar{
+width:43px;
+height:43px;
+border-radius:50%;
+background:var(--light);
+color:var(--primary);
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:800
+}
+
+.student-info{flex:1;min-width:0}
+
+.student-name{
+font-size:14px;
+font-weight:800
+}
+
+.student-meta{
+font-size:10px;
+color:var(--muted);
+margin-top:4px
+}
+
+.student-badges{
+margin-top:10px;
+display:flex;
+gap:6px;
+flex-wrap:wrap
+}
+
+.badge{
+display:inline-block;
+padding:5px 8px;
+border-radius:20px;
+font-size:9px;
+font-weight:800
+}
+
+.badge-student{
+background:#F0F3F5;
+color:#59636D
+}
+
+.badge-admin{
+background:#E8F6F4;
+color:var(--primary)
+}
+
+/* QUIZ ATTEMPTS */
+
+.attempt-card{
+background:#fff;
+border-radius:15px;
+padding:16px;
+margin-bottom:11px;
+box-shadow:var(--shadow)
+}
+
+.attempt-top{
+display:flex;
+align-items:center;
+gap:12px
+}
+
+.attempt-avatar{
+width:43px;
+height:43px;
+border-radius:50%;
+background:var(--light);
+color:var(--primary);
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:800;
+flex-shrink:0
+}
+
+.attempt-info{
+flex:1;
+min-width:0
+}
+
+.attempt-name{
+font-size:14px;
+font-weight:800;
+line-height:1.4
+}
+
+.attempt-email{
+font-size:10px;
+color:var(--muted);
+margin-top:3px;
+word-break:break-word
+}
+
+.attempt-score{
+font-size:17px;
+font-weight:800;
+color:var(--primary);
+text-align:right
+}
+
+.attempt-percentage{
+font-size:9px;
+color:var(--muted);
+margin-top:2px;
+text-align:right
+}
+
+.attempt-details{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:8px;
+margin-top:13px;
+padding-top:12px;
+border-top:1px solid var(--border)
+}
+
+.attempt-detail{
+background:#F7FAFA;
+border-radius:9px;
+padding:9px
+}
+
+.attempt-detail-label{
+font-size:9px;
+color:var(--muted);
+margin-bottom:3px
+}
+
+.attempt-detail-value{
+font-size:11px;
+font-weight:700
+}
+
+.quiz-progress{
+height:6px;
+background:#E5EAEA;
+border-radius:10px;
+overflow:hidden;
+margin:15px 0 22px
+}
+
+.quiz-progress-bar{
+height:100%;
+width:0;
+background:var(--primary)
+}
+
+.quiz-question{
+font-size:19px;
+line-height:1.45;
+margin-bottom:18px
+}
+
+.quiz-option{
+width:100%;
+border:1px solid var(--border);
+background:#fff;
+padding:14px;
+border-radius:11px;
+text-align:left;
+font-size:13px;
+margin-bottom:9px
+}
+
+.quiz-option.correct{
+border-color:var(--success);
+background:#EAF8F1
+}
+
+.quiz-option.wrong{
+border-color:var(--danger);
+background:#FFF0F0
+}
+
+.quiz-next{
+width:100%;
+height:48px;
+border:0;
+border-radius:11px;
+background:var(--primary);
+color:#fff;
+font-weight:700
+}
+
+.profile-card{
+background:#fff;
+border-radius:18px;
+padding:25px;
+text-align:center;
+box-shadow:var(--shadow)
+}
+
+.profile-avatar{
+width:70px;height:70px;
+border-radius:50%;
+background:var(--light);
+color:var(--primary);
+display:flex;
+align-items:center;
+justify-content:center;
+margin:0 auto 14px;
+font-size:25px
+}
+
+.profile-name{font-size:19px;font-weight:800}
+
+.profile-email{
+font-size:12px;
+color:var(--muted);
+margin-top:4px
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:67px;
+background:#fff;
+border-top:1px solid var(--border);
+z-index:40
+}
+
+.bottom-nav-inner{
+max-width:600px;
+height:100%;
+margin:auto;
+display:flex
+}
+
+.nav-button{
+flex:1;
+border:0;
+background:none;
+color:#8A9299;
+font-size:10px
+}
+
+.nav-button i{
+display:block;
+font-size:17px;
+margin-bottom:5px
+}
+
+.nav-button.active{
+color:var(--primary);
+font-weight:700
+}
+
+.profile-menu{
+display:none;
+position:fixed;
+right:15px;
+top:67px;
+width:210px;
+background:#fff;
+border:1px solid var(--border);
+border-radius:13px;
+padding:7px;
+box-shadow:0 12px 35px rgba(0,0,0,.13);
+z-index:100
+}
+
+.profile-menu button{
+width:100%;
+border:0;
+background:#fff;
+padding:12px;
+text-align:left;
+border-radius:8px;
+font-size:13px
+}
+
+@media(max-width:420px){
+.main{padding-left:14px;padding-right:14px}
+.auth-card{padding:22px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<section id="login" class="screen active">
+<div class="auth-screen">
+<div class="auth-container">
+
+<div class="brand">
+<div class="brand-mark"><i class="fa-solid fa-staff-snake"></i></div>
+<div class="brand-name">NurseMate</div>
+<div class="brand-subtitle">Your nursing study companion</div>
+</div>
+
+<div class="auth-card">
+
+<h1>Welcome back</h1>
+<p class="auth-description">Sign in to continue your nursing studies.</p>
+
+<div id="loginMessage" class="message"></div>
+
+<div class="form-group">
+<label>Email address</label>
+<input id="loginEmail" class="input" type="email" placeholder="you@example.com">
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<div class="input-wrapper">
+<input id="loginPassword" class="input password-input" type="password" placeholder="Enter your password">
+<button class="password-toggle" type="button" onclick="togglePassword('loginPassword',this)">
+<i class="fa-regular fa-eye"></i>
+</button>
+</div>
+</div>
+
+<button class="primary-button" onclick="login()">Sign in</button>
+
+<button class="secondary-button" onclick="openScreen('signup')">
+Create an account
+</button>
+
+<div class="auth-footer">
+Don't have an account?
+<button class="text-button" onclick="openScreen('signup')">Sign up</button>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+
+<!-- SIGNUP -->
+<section id="signup" class="screen">
+<div class="auth-screen">
+<div class="auth-container">
+
+<div class="brand">
+<div class="brand-mark"><i class="fa-solid fa-staff-snake"></i></div>
+<div class="brand-name">NurseMate</div>
+<div class="brand-subtitle">Learn. Practice. Progress.</div>
+</div>
+
+<div class="auth-card">
+
+<h1>Create your account</h1>
+<p class="auth-description">Create your NurseMate student account.</p>
+
+<div id="signupMessage" class="message"></div>
+
+<div class="form-group">
+<label>Full name</label>
+<input id="signupName" class="input" type="text" placeholder="Your full name">
+</div>
+
+<div class="form-group">
+<label>Email address</label>
+<input id="signupEmail" class="input" type="email" placeholder="you@example.com">
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<div class="input-wrapper">
+<input id="signupPassword" class="input password-input" type="password" placeholder="Minimum 6 characters">
+<button class="password-toggle" type="button" onclick="togglePassword('signupPassword',this)">
+<i class="fa-regular fa-eye"></i>
+</button>
+</div>
+</div>
+
+<button class="primary-button" onclick="signup()">Create account</button>
+
+<div class="auth-footer">
+Already have an account?
+<button class="text-button" onclick="openScreen('login')">Sign in</button>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+
+<!-- HEADER -->
+<header class="app-header">
+
+<div class="header-inner">
+
+<div class="header-brand">
+
+<div class="header-logo">
+<i class="fa-solid fa-staff-snake"></i>
+</div>
+
+<div>
+<div class="header-title">NurseMate</div>
+<div class="header-subtitle">NURSING STUDY PLATFORM</div>
+</div>
+
+</div>
+
+<button class="profile-button" onclick="toggleProfileMenu()">
+<i class="fa-regular fa-user"></i>
+</button>
+
+</div>
+</header>
+
+
+<div id="profileMenu" class="profile-menu">
+
+<button onclick="openScreen('profile')">
+<i class="fa-regular fa-user"></i>&nbsp; My profile
+</button>
+
+<button id="adminMenuButton" onclick="openAdmin()" style="display:none;">
+<i class="fa-solid fa-shield-halved"></i>&nbsp; Admin dashboard
+</button>
+
+<button onclick="logout()">
+<i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp; Sign out
+</button>
+
+</div>
+
+
+<main class="main">
+
+<!-- HOME -->
+<section id="home" class="screen">
+
+<div class="greeting">
+<div class="greeting-small">Good to see you</div>
+<h1 id="welcomeName">Welcome back</h1>
+</div>
+
+<div class="search-box">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input id="searchInput" type="search" placeholder="Search nursing notes..." oninput="searchNotes()">
+</div>
+
+<div id="searchResults"></div>
+
+<div id="homeContent">
+
+<div class="stats">
+
+<div class="stat-card">
+<div class="stat-icon"><i class="fa-solid fa-book-open"></i></div>
+<div id="noteCount" class="stat-value">0</div>
+<div class="stat-label">Published notes</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon"><i class="fa-solid fa-clipboard-question"></i></div>
+<div id="questionCount" class="stat-value">0</div>
+<div class="stat-label">Practice questions</div>
+</div>
+
+</div>
+
+<h2 class="section-title">Study</h2>
+
+<div class="study-grid">
+
+<button class="study-card" onclick="openScreen('notes')">
+<div class="study-icon"><i class="fa-solid fa-book-open"></i></div>
+<h3>Nursing Notes</h3>
+<p>Access your published course materials.</p>
+</button>
+
+<button class="study-card" onclick="startQuiz()">
+<div class="study-icon"><i class="fa-solid fa-clipboard-question"></i></div>
+<h3>Practice Quiz</h3>
+<p>Test your nursing knowledge.</p>
+</button>
+
+<button class="study-card" onclick="openScreen('anatomy')">
+<div class="study-icon"><i class="fa-solid fa-bone"></i></div>
+<h3>Anatomy</h3>
+<p>Review anatomical structures.</p>
+</button>
+
+<button class="study-card" onclick="openScreen('pharm')">
+<div class="study-icon"><i class="fa-solid fa-pills"></i></div>
+<h3>Pharmacology</h3>
+<p>Review drug-related concepts.</p>
+</button>
+
+<button class="study-card" onclick="openScreen('clinical')">
+<div class="study-icon"><i class="fa-solid fa-user-nurse"></i></div>
+<h3>Clinical Nursing</h3>
+<p>Develop essential clinical knowledge.</p>
+</button>
+
+<button class="study-card" onclick="openScreen('profile')">
+<div class="study-icon"><i class="fa-regular fa-user"></i></div>
+<h3>My Profile</h3>
+<p>Manage your account.</p>
+</button>
+
+</div>
+</div>
+</section>
+
+
+<!-- NOTES -->
+<section id="notes" class="screen">
+
+<button class="back-button" onclick="goHome()">
+<i class="fa-solid fa-arrow-left"></i>&nbsp; Back
+</button>
+
+<h1 class="page-title">Nursing Notes</h1>
+<p class="page-description">Published study materials.</p>
+
+<div id="notesList">
+<div class="empty">Loading notes...</div>
+</div>
+
+</section>
+
+
+<!-- NOTE VIEW -->
+<section id="noteView" class="screen">
+
+<button class="back-button" onclick="openScreen('notes')">
+<i class="fa-solid fa-arrow-left"></i>&nbsp; Back to notes
+</button>
+
+<div class="content-card">
+
+<h1 id="noteTitle" style="font-size:22px;">Note</h1>
+
+<div id="noteCourse" style="color:#0B6E69;font-weight:700;font-size:12px;margin:8px 0 20px;"></div>
+
+<div id="noteContent" style="font-size:14px;color:#59636D;line-height:1.8;white-space:pre-wrap;"></div>
+
+<div id="noteFileActions" class="file-actions">
+
+<button class="open-file-button" onclick="openCurrentNoteFile()">
+<i class="fa-solid fa-file-arrow-down"></i>&nbsp; Open attached file
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- ANATOMY -->
+<section id="anatomy" class="screen">
+
+<button class="back-button" onclick="goHome()">
+<i class="fa-solid fa-arrow-left"></i>&nbsp; Back
+</button>
+
+<h1 class="page-title">Anatomy</h1>
+<p class="page-description">Core anatomy topics for nursing students.</p>
+
+<div class="study-grid">
+
+<button class="study-card" onclick="showAnatomy('General Anatomy')">
+<div class="study-icon"><i class="fa-solid fa-person"></i></div>
+<h3>General Anatomy</h3>
+<p>Fundamental anatomical concepts.</p>
+</button>
+
+<button class="study-card" onclick="showAnatomy('Upper Limb')">
+<div class="study-icon"><i class="fa-solid fa-hand"></i></div>
+<h3>Upper Limb</h3>
+<p>Bones, muscles, nerves and vessels.</p>
+</button>
+
+<button class="study-card" onclick="showAnatomy('Lower Limb')">
+<div class="study-icon"><i class="fa-solid fa-person-walking"></i></div>
+<h3>Lower Limb</h3>
+<p>Lower limb structures.</p>
+</button>
+
+<button class="study-card" onclick="showAnatomy('Thorax')">
+<div class="study-icon"><i class="fa-solid fa-lungs"></i></div>
+<h3>Thorax</h3>
+<p>Heart, lungs and thoracic cage.</p>
+</button>
+
+<button class="study-card" onclick="showAnatomy('Abdomen')">
+<div class="study-icon"><i class="fa-solid fa-stomach"></i></div>
+<h3>Abdomen</h3>
+<p>Abdominal organs and structures.</p>
+</button>
+
+<button class="study-card" onclick="showAnatomy('Pelvis')">
+<div class="study-icon"><i class="fa-solid fa-bone"></i></div>
+<h3>Pelvis</h3>
+<p>Pelvic anatomy and structures.</p>
+</button>
+
+</div>
+</section>
+
+
+<!-- ANATOMY VIEW -->
+<section id="anatomyView" class="screen">
+
+<button class="back-button" onclick="openScreen('anatomy')">
+<i class="fa-solid fa-arrow-left"></i>&nbsp; Back
+</button>
+
+<div class="content-card">
+
+<h1 id="anatomyTitle" class="page-title">Anatomy</h1>
+
+<div id="anatomyContent" style="margin-top:18px;"></div>
+
+</div>
+</section>
+
+
+<!-- PHARM -->
+<section id="pharm" class="screen">
+
+<button class="back-button" onclick="goHome()">
+<i class="fa-solid fa-arrow-left"></i>&nbsp; Back
+</button>
+
+<h1 class="page-title">Pharmacology</h1>
+<p class="page-description">Essential pharmacology concepts.</p>
+
+<div class="content-card">
+<h3>Pharmacokinetics</h3>
+<p>Pharmacokinetics describes what the body does to a drug: absorption, distribution, metabolism and excretion.</p>
+</div>
+
+<div class="content-card">
+<h3>Pharmacodynamics</h3>
+<p>Pharmacodynamics describes the effects of drugs on the body and their mechanisms of action.</p>
+</div>
+
+</section>
+
+
+<!-- CLINICAL -->
+<section id="clinical" class="screen">
+
+<button class="back-button" onclick="goHome()">
+<i class="fa-solid fa-arrow-left"></i>&nbsp; Back
+</button>
+
+<h1 class="page-title">Clinical Nursing</h1>
+<p class="page-description">Essential clinical nursing concepts.</p>
+
+<div class="content-card">
+<h3>Patient Assessment</h3>
+<p>Patient assessment involves systematic collection of subjective and objective information to identify health needs and guide nursing care.</p>
+</div>
+
+<div class="content-card">
+<h3>Infection Prevention</h3>
+<p>Hand hygiene, appropriate personal protective equipment, safe sharps handling and proper waste disposal are important components of infection prevention.</p>
+</div>
+
+</section>
+
+
+<!-- QUIZ -->
+<section id="quiz" class="screen">
+
+<button class="back-button" onclick="goHome()">
+<i class="fa-solid fa-arrow-left"></i>&nbsp; Exit quiz
+</button>
+
+<div class="content-card">
+
+<div id="questionNumber" style="font-size:11px;color:#6B7280;font-weight:700;">Question</div>
+
+<div class="quiz-progress">
+<div id="quizProgress" class="quiz-progress-bar"></div>
+</div>
+
+<h2 id="questionText" class="quiz-question">Loading...</h2>
+
+<div id="quizOptions"></div>
+
+<button id="nextQuestion" class="quiz-next" style="display:none;" onclick="nextQuestion()">
+Next question
+</button>
+
+</div>
+</section>
+
+
+<!-- RESULT -->
+<section id="result" class="screen">
+
+<div class="content-card" style="text-align:center;padding:35px 20px;">
+
+<div style="font-size:35px;color:#0B6E69;">
+<i class="fa-solid fa-circle-check"></i>
+</div>
+
+<h1 style="margin-top:12px;">Quiz complete</h1>
+
+<p style="color:#6B7280;font-size:13px;margin-top:6px;">Your score</p>
+
+<div id="scoreNumber" style="font-size:48px;font-weight:800;margin:17px 0;">0/0</div>
+
+<p id="scoreMessage" style="font-size:13px;color:#59636D;"></p>
+
+<button class="primary-button" style="margin-top:20px;" onclick="startQuiz()">Try again</button>
+
+<button class="secondary-button" onclick="goHome()">Back to home</button>
+
+</div>
+</section>
+
+
+<!-- PROFILE -->
+<section id="profile" class="screen">
+
+<button class="back-button" onclick="goHome()">
+<i class="fa-solid fa-arrow-left"></i>&nbsp; Back
+</button>
+
+<h1 class="page-title">My Profile</h1>
+<p class="page-description">Your NurseMate account.</p>
+
+<div class="profile-card">
+
+<div class="profile-avatar">
+<i class="fa-regular fa-user"></i>
+</div>
+
+<div id="profileName" class="profile-name">Student</div>
+<div id="profileEmail" class="profile-email">—</div>
+
+<button class="primary-button" style="margin-top:22px;" onclick="logout()">Sign out</button>
+
+</div>
+</section>
+
+
+<!-- ADMIN -->
+<section id="admin" class="screen">
+
+<button class="back-button" onclick="goHome()">
+<i class="fa-solid fa-arrow-left"></i>&nbsp; Back
+</button>
+
+<h1 class="page-title">Admin Dashboard</h1>
+<p class="page-description">Manage NurseMate learning content.</p>
+
+<div class="content-card">
+
+<div style="display:flex;align-items:center;gap:12px;">
+
+<div class="admin-icon">
+<i class="fa-solid fa-shield-halved"></i>
+</div>
+
+<div>
+<div style="font-size:15px;font-weight:800;">Administrator</div>
+<div id="adminEmail" style="font-size:10px;color:#6B7280;">donnatzy01@gmail.com</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="admin-grid">
+
+<button class="admin-card" onclick="showAdminForm('courseForm')">
+<div class="admin-icon"><i class="fa-solid fa-folder-plus"></i></div>
+<h3>Add course</h3>
+<p>Create a new nursing course.</p>
+</button>
+
+<button class="admin-card" onclick="showAdminForm('noteForm')">
+<div class="admin-icon"><i class="fa-solid fa-file-circle-plus"></i></div>
+<h3>Upload note</h3>
+<p>Upload a PDF or document.</p>
+</button>
+
+<button class="admin-card" onclick="showAdminForm('quizForm')">
+<div class="admin-icon"><i class="fa-solid fa-circle-question"></i></div>
+<h3>Add question</h3>
+<p>Add a practice quiz question.</p>
+</button>
+
+<button class="admin-card" onclick="showAdminForm('manageNotesForm')">
+<div class="admin-icon"><i class="fa-solid fa-file-pen"></i></div>
+<h3>Manage notes</h3>
+<p>Edit, publish or delete notes.</p>
+</button>
+
+<button class="admin-card" onclick="showAdminForm('studentsForm')">
+<div class="admin-icon"><i class="fa-solid fa-user-group"></i></div>
+<h3>Students</h3>
+<p>View registered students.</p>
+</button>
+
+<button class="admin-card" onclick="showAdminForm('attemptsForm')">
+<div class="admin-icon"><i class="fa-solid fa-chart-column"></i></div>
+<h3>Quiz attempts</h3>
+<p>View student quiz scores and attempts.</p>
+</button>
+
+</div>
+
+
+<!-- COURSE FORM -->
+<div id="courseForm" class="admin-form content-card">
+
+<h3>Add Course</h3>
+
+<div class="form-group">
+<label>Course name</label>
+<input id="courseName" class="input" placeholder="e.g. ANA 211">
+</div>
+
+<div class="form-group">
+<label>Description</label>
+<input id="courseDescription" class="input" placeholder="Optional course description">
+</div>
+
+<div class="form-actions">
+
+<button class="secondary-button" onclick="hideAdminForms()">Cancel</button>
+
+<button class="primary-button" onclick="addCourse()">Save course</button>
+
+</div>
+</div>
+
+
+<!-- NOTE FORM -->
+<div id="noteForm" class="admin-form content-card">
+
+<h3>Upload Nursing Note</h3>
+
+<p style="font-size:11px;color:#6B7280;margin-bottom:15px;">
+Add the note information and attach a PDF/document from your phone.
+</p>
+
+<div class="form-group">
+<label>Note title</label>
+<input id="noteTitleInput" class="input" placeholder="e.g. Inflammation">
+</div>
+
+<div class="form-group">
+<label>Course</label>
+<select id="noteCourseSelect">
+<option value="">Select course</option>
+</select>
+</div>
+
+<div class="file-upload">
+
+<div class="file-upload-icon">
+<i class="fa-solid fa-cloud-arrow-up"></i>
+</div>
+
+<p>
+Select a PDF, Word document or text file from your phone.
+<br>
+Maximum file size: 50 MB.
+</p>
+
+<input
+id="noteFile"
+class="file-input"
+type="file"
+accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+
+<div id="selectedFile" class="selected-file"></div>
+
+</div>
+
+<div class="form-group">
+<label>Note content</label>
+<textarea id="noteContentInput" placeholder="Optional. Add a short description or paste the note content here..."></textarea>
+</div>
+
+<div style="display:flex;align-items:center;gap:9px;margin-top:5px;">
+
+<input id="publishNote" type="checkbox" style="width:17px;height:17px;">
+
+<label for="publishNote" style="margin:0;">Publish immediately</label>
+
+</div>
+
+<div id="uploadProgress" class="progress-wrap">
+
+<div class="progress-track">
+<div id="uploadProgressBar" class="progress-bar"></div>
+</div>
+
+<div id="uploadProgressText" class="progress-text">Preparing upload...</div>
+
+</div>
+
+<div class="form-actions">
+
+<button class="secondary-button" onclick="hideAdminForms()">Cancel</button>
+
+<button id="saveNoteButton" class="primary-button" onclick="uploadAndSaveNote()">Upload & save</button>
+
+</div>
+</div>
+
+
+<!-- QUIZ FORM -->
+<div id="quizForm" class="admin-form content-card">
+
+<h3>Add Quiz Question</h3>
+
+<div class="form-group">
+<label>Question</label>
+<textarea id="quizQuestionInput" style="min-height:100px;" placeholder="Enter the question..."></textarea>
+</div>
+
+<div class="form-group">
+<label>Option A</label>
+<input id="optionA" class="input" placeholder="Option A">
+</div>
+
+<div class="form-group">
+<label>Option B</label>
+<input id="optionB" class="input" placeholder="Option B">
+</div>
+
+<div class="form-group">
+<label>Option C</label>
+<input id="optionC" class="input" placeholder="Option C">
+</div>
+
+<div class="form-group">
+<label>Option D</label>
+<input id="optionD" class="input" placeholder="Option D">
+</div>
+
+<div class="form-group">
+<label>Correct answer</label>
+<select id="correctAnswer">
+<option value="0">A</option>
+<option value="1">B</option>
+<option value="2">C</option>
+<option value="3">D</option>
+</select>
+</div>
+
+<div style="display:flex;align-items:center;gap:9px;">
+
+<input id="publishQuestion" type="checkbox" style="width:17px;height:17px;">
+
+<label for="publishQuestion" style="margin:0;">Publish immediately</label>
+
+</div>
+
+<div class="form-actions">
+
+<button class="secondary-button" onclick="hideAdminForms()">Cancel</button>
+
+<button class="primary-button" onclick="addQuestion()">Save question</button>
+
+</div>
+</div>
+
+
+<!-- MANAGE NOTES -->
+<div id="manageNotesForm" class="admin-form content-card">
+
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px;">
+
+<div>
+<h3 style="margin-bottom:3px;">Manage Notes</h3>
+<p style="font-size:10px;color:#6B7280;">
+Edit, publish, unpublish or delete your uploaded notes.
+</p>
+</div>
+
+<button
+onclick="loadManageNotes()"
+style="border:1px solid var(--border);background:#fff;border-radius:9px;padding:9px 11px;color:var(--primary);">
+<i class="fa-solid fa-rotate"></i>
+</button>
+
+</div>
+
+<div id="manageNotesList">
+<div class="empty">Loading notes...</div>
+</div>
+
+</div>
+
+
+<!-- STUDENTS -->
+<div id="studentsForm" class="admin-form content-card">
+
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px;">
+
+<div>
+<h3 style="margin-bottom:3px;">Registered Students</h3>
+<p style="font-size:10px;color:#6B7280;">
+Accounts registered in NurseMate.
+</p>
+</div>
+
+<button
+onclick="loadStudents()"
+style="border:1px solid var(--border);background:#fff;border-radius:9px;padding:9px 11px;color:var(--primary);">
+<i class="fa-solid fa-rotate"></i>
+</button>
+
+</div>
+
+<div id="studentsList">
+<div class="empty">Loading students...</div>
+</div>
+
+</div>
+
+
+<!-- QUIZ ATTEMPTS -->
+<div id="attemptsForm" class="admin-form content-card">
+
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px;">
+
+<div>
+<h3 style="margin-bottom:3px;">Quiz Attempts</h3>
+<p style="font-size:10px;color:#6B7280;">
+View student quiz scores and performance.
+</p>
+</div>
+
+<button
+onclick="loadQuizAttempts()"
+style="border:1px solid var(--border);background:#fff;border-radius:9px;padding:9px 11px;color:var(--primary);">
+<i class="fa-solid fa-rotate"></i>
+</button>
+
+</div>
+
+<div id="attemptsList">
+<div class="empty">Loading quiz attempts...</div>
+</div>
+
+</div>
+
+
+<!-- ADMIN STATS -->
+<div class="content-card">
+
+<h3>Dashboard statistics</h3>
+
+<div id="adminStats" style="font-size:13px;color:#59636D;line-height:2;">
+Loading...
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- NAV -->
+<nav class="bottom-nav">
+
+<div class="bottom-nav-inner">
+
+<button id="navHome" class="nav-button active" onclick="goHome()">
+<i class="fa-solid fa-house"></i>
+Home
+</button>
+
+<button id="navNotes" class="nav-button" onclick="openScreen('notes')">
+<i class="fa-solid fa-book-open"></i>
+Notes
+</button>
+
+<button id="navQuiz" class="nav-button" onclick="startQuiz()">
+<i class="fa-solid fa-clipboard-question"></i>
+Quiz
+</button>
+
+<button id="navAnatomy" class="nav-button" onclick="openScreen('anatomy')">
+<i class="fa-solid fa-bone"></i>
+Anatomy
+</button>
+
+<button id="navProfile" class="nav-button" onclick="openScreen('profile')">
+<i class="fa-regular fa-user"></i>
+Profile
+</button>
+
+</div>
+</nav>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL="https://tqifwhefsemknqbmwtoy.supabase.co";
+
+const SUPABASE_ANON_KEY="sb_publishable_tBQcJ9DjRm7zD9MRMTEabw_hB8BQGAC";
+
+const ADMIN_EMAIL="donnatzy01@gmail.com";
+
+const STORAGE_BUCKET="nursing-notes";
+
+const supabaseClient=
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
+
+let currentUser=null;
+let currentProfile=null;
+let quizQuestions=[];
+let currentQuestion=0;
+let score=0;
+let answered=false;
+let selectedFile=null;
+let currentNoteFilePath=null;
+
+
+/* PASSWORD */
+
+function togglePassword(id,button){
+
+const input=document.getElementById(id);
+const icon=button.querySelector("i");
+
+if(input.type==="password"){
+input.type="text";
+icon.className="fa-regular fa-eye-slash";
+}else{
+input.type="password";
+icon.className="fa-regular fa-eye";
+}
+
+}
+
+
+/* FILE */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+const fileInput=document.getElementById("noteFile");
+
+if(fileInput){
+fileInput.addEventListener("change",handleFileSelect);
+}
+
+});
+
+
+function handleFileSelect(){
+
+const input=document.getElementById("noteFile");
+const display=document.getElementById("selectedFile");
+
+if(!input.files||!input.files.length){
+
+selectedFile=null;
+display.style.display="none";
+display.textContent="";
+return;
+
+}
+
+const file=input.files[0];
+
+if(file.size>50*1024*1024){
+
+alert("This file is larger than 50 MB.");
+input.value="";
+selectedFile=null;
+display.style.display="none";
+return;
+
+}
+
+selectedFile=file;
+
+const size=file.size>=1024*1024
+?(file.size/1024/1024).toFixed(2)+" MB"
+:(file.size/1024).toFixed(1)+" KB";
+
+display.textContent=
+"Selected: "+file.name+" ("+size+")";
+
+display.style.display="block";
+
+}
+
+
+/* NAVIGATION */
+
+function openScreen(name){
+
+document.querySelectorAll(".screen")
+.forEach(s=>s.classList.remove("active"));
+
+const target=document.getElementById(name);
+
+if(target)target.classList.add("active");
+
+document.getElementById("profileMenu").style.display="none";
+
+updateNav(name);
+
+window.scrollTo(0,0);
+
+if(name==="notes")loadNotes();
+
+if(name==="admin")loadAdminStats();
+
+}
+
+
+function updateNav(name){
+
+document.querySelectorAll(".nav-button")
+.forEach(b=>b.classList.remove("active"));
+
+if(name==="home")
+document.getElementById("navHome")?.classList.add("active");
+
+if(name==="notes")
+document.getElementById("navNotes")?.classList.add("active");
+
+if(name==="quiz")
+document.getElementById("navQuiz")?.classList.add("active");
+
+if(name==="anatomy")
+document.getElementById("navAnatomy")?.classList.add("active");
+
+if(name==="profile")
+document.getElementById("navProfile")?.classList.add("active");
+
+}
+
+
+function goHome(){
+openScreen("home");
+}
+
+
+/* MENU */
+
+function toggleProfileMenu(){
+
+const menu=document.getElementById("profileMenu");
+
+menu.style.display=
+menu.style.display==="block"
+?"none"
+:"block";
+
+}
+
+
+/* MESSAGE */
+
+function showMessage(element,text){
+
+element.textContent=text;
+element.style.display="block";
+
+}
+
+
+/* SIGNUP */
+
+async function signup(){
+
+const name=document.getElementById("signupName").value.trim();
+const email=document.getElementById("signupEmail").value.trim();
+const password=document.getElementById("signupPassword").value;
+const message=document.getElementById("signupMessage");
+
+message.style.display="none";
+
+if(!name||!email||!password){
+
+showMessage(message,"Please complete all fields.");
+return;
+
+}
+
+if(password.length<6){
+
+showMessage(message,"Password must contain at least 6 characters.");
+return;
+
+}
+
+const {data,error}=
+await supabaseClient.auth.signUp({
+
+email,
+password,
+
+options:{
+data:{
+full_name:name
+}
+}
+
+});
+
+if(error){
+
+showMessage(message,error.message);
+return;
+
+}
+
+if(data.user){
+
+await supabaseClient
+.from("profiles")
+.upsert({
+
+id:data.user.id,
+full_name:name,
+role:
+email.toLowerCase()===
+ADMIN_EMAIL.toLowerCase()
+?"admin"
+:"student"
+
+});
+
+}
+
+showMessage(
+message,
+"Account created successfully. Check your email if verification is enabled."
+);
+
+}
+
+
+/* LOGIN */
+
+async function login(){
+
+const email=document.getElementById("loginEmail").value.trim();
+const password=document.getElementById("loginPassword").value;
+const message=document.getElementById("loginMessage");
+
+message.style.display="none";
+
+if(!email||!password){
+
+showMessage(message,"Please enter your email and password.");
+return;
+
+}
+
+const {data,error}=
+await supabaseClient.auth
+.signInWithPassword({
+email,
+password
+});
+
+if(error){
+
+showMessage(message,error.message);
+return;
+
+}
+
+currentUser=data.user;
+
+await ensureProfile();
+await loadProfile();
+
+document.querySelector(".app-header").style.display="";
+document.querySelector(".bottom-nav").style.display="";
+
+openScreen("home");
+
+}
+
+
+/* PROFILE */
+
+async function ensureProfile(){
+
+if(!currentUser)return;
+
+const email=currentUser.email||"";
+
+const isAdmin=
+email.toLowerCase()===
+ADMIN_EMAIL.toLowerCase();
+
+const {data}=
+await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",currentUser.id)
+.maybeSingle();
+
+if(!data){
+
+await supabaseClient
+.from("profiles")
+.insert({
+
+id:currentUser.id,
+
+full_name:
+currentUser.user_metadata?.full_name||
+"Student",
+
+role:isAdmin?"admin":"student",
+is_admin:isAdmin
+
+});
+
+}else if(isAdmin&&(data.role!=="admin"||data.is_admin!==true)){
+
+await supabaseClient
+.from("profiles")
+.update({
+role:"admin",
+is_admin:true
+})
+.eq("id",currentUser.id);
+
+}
+
+}
+
+
+async function loadProfile(){
+
+if(!currentUser)return;
+
+const {data}=
+await supabaseClient
+.from("profiles")
+.select("*")
+.eq("id",currentUser.id)
+.maybeSingle();
+
+currentProfile=data;
+
+const name=
+data?.full_name||
+currentUser.user_metadata?.full_name||
+"Student";
+
+document.getElementById("welcomeName").textContent=
+"Welcome, "+name;
+
+document.getElementById("profileName").textContent=name;
+
+document.getElementById("profileEmail").textContent=
+currentUser.email||"—";
+
+const admin=
+data?.role==="admin"||
+data?.is_admin===true||
+currentUser.email?.toLowerCase()===
+ADMIN_EMAIL.toLowerCase();
+
+document.getElementById("adminMenuButton").style.display=
+admin?"block":"none";
+
+}
+
+
+/* LOGOUT */
+
+async function logout(){
+
+await supabaseClient.auth.signOut();
+
+currentUser=null;
+currentProfile=null;
+
+openScreen("login");
+
+}
+
+
+/* SESSION */
+
+async function checkSession(){
+
+const {data}=
+await supabaseClient.auth.getSession();
+
+if(data.session){
+
+currentUser=data.session.user;
+
+await ensureProfile();
+await loadProfile();
+
+document.querySelector(".app-header").style.display="";
+document.querySelector(".bottom-nav").style.display="";
+
+openScreen("home");
+
+}else{
+
+document.querySelector(".app-header").style.display="none";
+document.querySelector(".bottom-nav").style.display="none";
+
+openScreen("login");
+
+}
+
+}
+
+
+/* ADMIN */
+
+function isAdmin(){
+
+return currentProfile?.role==="admin"||
+currentProfile?.is_admin===true||
+currentUser?.email?.toLowerCase()===
+ADMIN_EMAIL.toLowerCase();
+
+}
+
+
+function openAdmin(){
+
+if(!isAdmin()){
+
+alert("Admin access only.");
+return;
+
+}
+
+openScreen("admin");
+
+}
+
+
+function showAdminForm(id){
+
+if(!isAdmin()){
+
+alert("Admin access only.");
+return;
+
+}
+
+hideAdminForms();
+
+document.getElementById(id).classList.add("active");
+
+if(id==="noteForm")
+loadCourseSelect();
+
+if(id==="manageNotesForm")
+loadManageNotes();
+
+if(id==="studentsForm")
+loadStudents();
+
+if(id==="attemptsForm")
+loadQuizAttempts();
+
+}
+
+
+function hideAdminForms(){
+
+document.querySelectorAll(".admin-form")
+.forEach(form=>form.classList.remove("active"));
+
+}
+
+
+/* COURSES */
+
+async function addCourse(){
+
+if(!isAdmin())return;
+
+const name=document.getElementById("courseName").value.trim();
+const description=document.getElementById("courseDescription").value.trim();
+
+if(!name){
+
+alert("Enter a course name.");
+return;
+
+}
+
+const {error}=
+await supabaseClient
+.from("courses")
+.insert({
+name:name,
+description:description||null
+});
+
+if(error){
+
+alert(error.message);
+return;
+
+}
+
+document.getElementById("courseName").value="";
+document.getElementById("courseDescription").value="";
+
+alert("Course added successfully.");
+
+hideAdminForms();
+loadAdminStats();
+
+}
+
+
+/* COURSE SELECT */
+
+async function loadCourseSelect(){
+
+const select=document.getElementById("noteCourseSelect");
+
+select.innerHTML='<option value="">Select course</option>';
+
+const {data,error}=
+await supabaseClient
+.from("courses")
+.select("id,name")
+.order("name");
+
+if(error){
+
+console.log(error);
+return;
+
+}
+
+(data||[]).forEach(course=>{
+
+const option=document.createElement("option");
+
+option.value=course.id;
+option.textContent=course.name;
+
+select.appendChild(option);
+
+});
+
+}
+
+
+/* UPLOAD NOTE */
+
+async function uploadAndSaveNote(){
+
+if(!isAdmin()){
+
+alert("Admin access only.");
+return;
+
+}
+
+const title=document.getElementById("noteTitleInput").value.trim();
+const courseId=document.getElementById("noteCourseSelect").value;
+const content=document.getElementById("noteContentInput").value.trim();
+const published=document.getElementById("publishNote").checked;
+
+if(!title){
+
+alert("Enter a note title.");
+return;
+
+}
+
+if(!selectedFile&&!content){
+
+alert("Choose a file or enter note content.");
+return;
+
+}
+
+const button=document.getElementById("saveNoteButton");
+const progress=document.getElementById("uploadProgress");
+const progressBar=document.getElementById("uploadProgressBar");
+const progressText=document.getElementById("uploadProgressText");
+
+button.disabled=true;
+button.textContent="Uploading...";
+
+progress.style.display="block";
+progressBar.style.width="10%";
+
+let filePath=null;
+
+try{
+
+if(selectedFile){
+
+progressBar.style.width="25%";
+progressText.textContent="Uploading file...";
+
+const safeName=
+selectedFile.name
+.toLowerCase()
+.replace(/[^a-z0-9.\-_]/g,"-");
+
+const uniqueName=
+Date.now()+"-"+safeName;
+
+filePath=
+currentUser.id+"/"+uniqueName;
+
+const {error:uploadError}=
+await supabaseClient
+.storage
+.from(STORAGE_BUCKET)
+.upload(
+filePath,
+selectedFile,
+{
+cacheControl:"3600",
+upsert:false,
+contentType:
+selectedFile.type||
+"application/octet-stream"
+}
+);
+
+if(uploadError)throw uploadError;
+
+progressBar.style.width="70%";
+progressText.textContent="Saving note...";
+
+}
+
+const {error:noteError}=
+await supabaseClient
+.from("notes")
+.insert({
+
+title:title,
+content:content||"",
+course_id:courseId?Number(courseId):null,
+published:published,
+created_by:currentUser.id,
+file_path:filePath
+
+});
+
+if(noteError){
+
+if(filePath){
+
+await supabaseClient
+.storage
+.from(STORAGE_BUCKET)
+.remove([filePath]);
+
+}
+
+throw noteError;
+
+}
+
+progressBar.style.width="100%";
+progressText.textContent="Upload completed.";
+
+alert(
+published
+?"Note uploaded and published successfully."
+:"Note uploaded successfully."
+);
+
+document.getElementById("noteTitleInput").value="";
+document.getElementById("noteContentInput").value="";
+document.getElementById("noteCourseSelect").value="";
+document.getElementById("publishNote").checked=false;
+document.getElementById("noteFile").value="";
+document.getElementById("selectedFile").style.display="none";
+document.getElementById("selectedFile").textContent="";
+
+selectedFile=null;
+
+hideAdminForms();
+loadAdminStats();
+
+}catch(error){
+
+console.error(error);
+
+alert("Upload failed: "+(error.message||"Unknown error"));
+
+}finally{
+
+button.disabled=false;
+button.textContent="Upload & save";
+
+}
+
+}
+
+
+/* STUDENT NOTES */
+
+async function loadNotes(){
+
+const list=document.getElementById("notesList");
+
+list.innerHTML='<div class="empty">Loading notes...</div>';
+
+const {data,error}=
+await supabaseClient
+.from("notes")
+.select(`
+id,
+title,
+content,
+file_path,
+created_at,
+courses(name)
+`)
+.eq("published",true)
+.order("created_at",{ascending:false});
+
+if(error){
+
+console.log(error);
+
+list.innerHTML=
+'<div class="empty">Unable to load notes.</div>';
+
+return;
+
+}
+
+document.getElementById("noteCount").textContent=data?.length||0;
+
+if(!data?.length){
+
+list.innerHTML=
+'<div class="empty">No published notes yet.</div>';
+
+return;
+
+}
+
+list.innerHTML="";
+
+data.forEach(note=>{
+
+const button=document.createElement("button");
+
+button.className="note-card";
+
+button.innerHTML=`
+
+<div class="note-icon">
+<i class="fa-solid ${note.file_path?"fa-file-pdf":"fa-file-lines"}"></i>
+</div>
+
+<div class="note-info">
+
+<div class="note-title">
+${escapeHTML(note.title)}
+</div>
+
+<div class="note-course">
+${escapeHTML(note.courses?.name||"Nursing")}
+${note.file_path?" • Attached file":""}
+</div>
+
+</div>
+
+<i class="fa-solid fa-chevron-right"
+style="margin-left:auto;color:#A0A7AD;font-size:11px;">
+</i>
+`;
+
+button.onclick=()=>openNote(note);
+
+list.appendChild(button);
+
+});
+
+}
+
+
+/* OPEN NOTE */
+
+function openNote(note){
+
+document.getElementById("noteTitle").textContent=note.title;
+
+document.getElementById("noteCourse").textContent=
+note.courses?.name||"General Nursing";
+
+document.getElementById("noteContent").textContent=
+note.content||"";
+
+currentNoteFilePath=note.file_path||null;
+
+document.getElementById("noteFileActions").style.display=
+currentNoteFilePath?"block":"none";
+
+openScreen("noteView");
+
+}
+
+
+/* OPEN FILE */
+
+async function openCurrentNoteFile(){
+
+if(!currentNoteFilePath){
+
+alert("No file attached to this note.");
+return;
+
+}
+
+const {data,error}=
+await supabaseClient
+.storage
+.from(STORAGE_BUCKET)
+.createSignedUrl(
+currentNoteFilePath,
+3600
+);
+
+if(error){
+
+alert("Unable to open file: "+error.message);
+return;
+
+}
+
+if(data?.signedUrl){
+
+window.open(data.signedUrl,"_blank");
+
+}else{
+
+alert("Unable to create file link.");
+
+}
+
+}
+
+
+/* SEARCH */
+
+async function searchNotes(){
+
+const query=
+document.getElementById("searchInput").value.trim();
+
+const results=
+document.getElementById("searchResults");
+
+const home=
+document.getElementById("homeContent");
+
+if(!query){
+
+results.innerHTML="";
+home.style.display="block";
+return;
+
+}
+
+home.style.display="none";
+
+const {data,error}=
+await supabaseClient
+.from("notes")
+.select(`
+id,
+title,
+content,
+file_path,
+courses(name)
+`)
+.eq("published",true)
+.ilike("title","%"+query+"%");
+
+if(error||!data?.length){
+
+results.innerHTML=
+'<div class="empty">No notes found.</div>';
+
+return;
+
+}
+
+results.innerHTML=
+'<h2 class="section-title">Search results</h2>';
+
+data.forEach(note=>{
+
+const button=document.createElement("button");
+
+button.className="note-card";
+
+button.innerHTML=`
+
+<div class="note-icon">
+<i class="fa-solid fa-file-lines"></i>
+</div>
+
+<div class="note-info">
+
+<div class="note-title">
+${escapeHTML(note.title)}
+</div>
+
+<div class="note-course">
+${escapeHTML(note.courses?.name||"Nursing")}
+</div>
+
+</div>
+`;
+
+button.onclick=()=>openNote(note);
+
+results.appendChild(button);
+
+});
+
+}
+
+
+/* ANATOMY */
+
+function showAnatomy(topic){
+
+const content={
+
+"General Anatomy":`
+<h3>General Anatomy</h3>
+<p>Anatomy is the study of the structure of the human body.</p>
+<br>
+<h3>Levels of organization</h3>
+<p>Chemical, cellular, tissue, organ and organ-system levels.</p>
+`,
+
+"Upper Limb":`
+<h3>Upper Limb</h3>
+<p>The upper limb includes the pectoral girdle, arm, forearm and hand.</p>
+<br>
+<p>Important bones include the clavicle, scapula, humerus, radius and ulna.</p>
+`,
+
+"Lower Limb":`
+<h3>Lower Limb</h3>
+<p>The lower limb includes the gluteal region, thigh, leg and foot.</p>
+<br>
+<p>Important bones include the femur, tibia and fibula.</p>
+`,
+
+"Thorax":`
+<h3>Thorax</h3>
+<p>The thorax contains the heart, lungs, mediastinum, thoracic cage and diaphragm.</p>
+`,
+
+"Abdomen":`
+<h3>Abdomen</h3>
+<p>Major abdominal organs include the stomach, liver, gallbladder, pancreas, spleen and intestines.</p>
+`,
+
+"Pelvis":`
+<h3>Pelvis</h3>
+<p>The pelvis contains important bones, muscles, vessels, nerves and pelvic organs.</p>
+`
+
+};
+
+document.getElementById("anatomyTitle").textContent=topic;
+
+document.getElementById("anatomyContent").innerHTML=
+content[topic]||"Content coming soon.";
+
+openScreen("anatomyView");
+
+}
+
+
+/* QUIZ */
+
+async function startQuiz(){
+
+const {data,error}=
+await supabaseClient
+.from("quiz_questions")
+.select("*")
+.eq("published",true)
+.order("id");
+
+if(!error&&data?.length){
+
+quizQuestions=data;
+
+}else{
+
+quizQuestions=getLocalQuestions();
+
+}
+
+currentQuestion=0;
+score=0;
+answered=false;
+
+document.getElementById("questionCount").textContent=
+quizQuestions.length;
+
+openScreen("quiz");
+
+loadQuestion();
+
+}
+
+
+function loadQuestion(){
+
+const q=quizQuestions[currentQuestion];
+
+if(!q){
+
+showResult();
+return;
+
+}
+
+document.getElementById("questionNumber").textContent=
+"Question "+(currentQuestion+1)+" of "+quizQuestions.length;
+
+document.getElementById("questionText").textContent=q.question;
+
+document.getElementById("quizProgress").style.width=
+((currentQuestion+1)/quizQuestions.length*100)+"%";
+
+const options=document.getElementById("quizOptions");
+
+options.innerHTML="";
+
+document.getElementById("nextQuestion").style.display="none";
+
+answered=false;
+
+q.options.forEach((option,index)=>{
+
+const button=document.createElement("button");
+
+button.className="quiz-option";
+
+button.textContent=
+String.fromCharCode(65+index)+". "+option;
+
+button.onclick=()=>selectAnswer(index,button);
+
+options.appendChild(button);
+
+});
+
+}
+
+
+function selectAnswer(index,button){
+
+if(answered)return;
+
+answered=true;
+
+const correct=quizQuestions[currentQuestion].answer;
+
+if(index===correct){
+
+score++;
+button.classList.add("correct");
+
+}else{
+
+button.classList.add("wrong");
+
+const buttons=document.querySelectorAll(".quiz-option");
+
+if(buttons[correct])
+buttons[correct].classList.add("correct");
+
+}
+
+document.getElementById("nextQuestion").style.display="block";
+
+}
+
+
+function nextQuestion(){
+
+currentQuestion++;
+
+if(currentQuestion<quizQuestions.length)
+loadQuestion();
+else
+showResult();
+
+}
+
+
+function showResult(){
+
+openScreen("result");
+
+document.getElementById("scoreNumber").textContent=
+score+"/"+quizQuestions.length;
+
+const percentage=score/quizQuestions.length*100;
+
+let message;
+
+if(percentage>=80)
+message="Excellent performance. Keep it up.";
+else if(percentage>=60)
+message="Good work. Keep revising.";
+else
+message="Keep studying and try again.";
+
+document.getElementById("scoreMessage").textContent=message;
+
+saveQuizAttempt();
+
+}
+
+
+/* SAVE QUIZ ATTEMPT */
+
+async function saveQuizAttempt(){
+
+if(!currentUser)return;
+
+const {error}=await supabaseClient
+.from("quiz_attempts")
+.insert({
+
+user_id:currentUser.id,
+score:score,
+total:quizQuestions.length
+
+});
+
+if(error){
+console.error("Unable to save quiz attempt:",error);
+}
+
+}
+
+
+/* QUIZ ATTEMPTS ADMIN */
+
+async function loadQuizAttempts(){
+
+if(!isAdmin())return;
+
+const list=document.getElementById("attemptsList");
+
+list.innerHTML=
+'<div class="empty">Loading quiz attempts...</div>';
+
+const {data,error}=
+await supabaseClient
+.from("quiz_attempts")
+.select(`
+id,
+user_id,
+score,
+total,
+created_at,
+profiles(
+full_name
+)
+`)
+.order("created_at",{ascending:false});
+
+if(error){
+
+console.error("Quiz attempts error:",error);
+
+list.innerHTML=
+'<div class="empty">Unable to load quiz attempts.<br><br>'+
+escapeHTML(error.message)+
+'</div>';
+
+return;
+
+}
+
+if(!data?.length){
+
+list.innerHTML=
+'<div class="empty">No quiz attempts have been recorded yet.</div>';
+
+return;
+
+}
+
+list.innerHTML="";
+
+data.forEach(attempt=>{
+
+const card=document.createElement("div");
+
+card.className="attempt-card";
+
+const name=
+attempt.profiles?.full_name||
+"Student";
+
+const initials=
+name
+.split(" ")
+.filter(Boolean)
+.slice(0,2)
+.map(x=>x[0])
+.join("")
+.toUpperCase();
+
+const total=
+Number(attempt.total)||0;
+
+const obtained=
+Number(attempt.score)||0;
+
+const percentage=
+total>0
+?Math.round((obtained/total)*100)
+:0;
+
+const date=
+attempt.created_at
+?new Date(attempt.created_at).toLocaleString()
+:"—";
+
+let performance;
+
+if(percentage>=80)
+performance="Excellent";
+else if(percentage>=60)
+performance="Good";
+else
+performance="Needs revision";
+
+card.innerHTML=`
+
+<div class="attempt-top">
+
+<div class="attempt-avatar">
+${escapeHTML(initials||"S")}
+</div>
+
+<div class="attempt-info">
+
+<div class="attempt-name">
+${escapeHTML(name)}
+</div>
+
+<div class="attempt-email">
+User ID: ${escapeHTML(String(attempt.user_id||"").substring(0,8))}...
+</div>
+
+</div>
+
+<div>
+<div class="attempt-score">
+${obtained}/${total}
+</div>
+
+<div class="attempt-percentage">
+${percentage}%
+</div>
+
+</div>
+
+</div>
+
+<div class="attempt-details">
+
+<div class="attempt-detail">
+
+<div class="attempt-detail-label">
+Performance
+</div>
+
+<div class="attempt-detail-value">
+${performance}
+</div>
+
+</div>
+
+<div class="attempt-detail">
+
+<div class="attempt-detail-label">
+Date
+</div>
+
+<div class="attempt-detail-value">
+${escapeHTML(date)}
+</div>
+
+</div>
+
+</div>
+
+`;
+
+list.appendChild(card);
+
+});
+
+}
+
+
+/* LOCAL QUESTIONS */
+
+function getLocalQuestions(){
+
+return [
+
+{
+question:"What is the first step of the nursing process?",
+options:["Assessment","Planning","Implementation","Evaluation"],
+answer:0
+},
+
+{
+question:"What is the functional unit of the kidney?",
+options:["Neuron","Nephron","Alveolus","Osteon"],
+answer:1
+},
+
+{
+question:"Which organ pumps blood throughout the body?",
+options:["Liver","Kidney","Heart","Lung"],
+answer:2
+},
+
+{
+question:"Which blood cells primarily transport oxygen?",
+options:["White blood cells","Red blood cells","Platelets","Plasma"],
+answer:1
+},
+
+{
+question:"Where does most gas exchange occur in the lungs?",
+options:["Trachea","Bronchi","Alveoli","Larynx"],
+answer:2
+},
+
+{
+question:"Which chamber pumps blood into the aorta?",
+options:["Right atrium","Right ventricle","Left atrium","Left ventricle"],
+answer:3
+},
+
+{
+question:"Which pulse is commonly assessed at the wrist?",
+options:["Carotid","Femoral","Radial","Popliteal"],
+answer:2
+},
+
+{
+question:"Which is important for infection prevention?",
+options:["Skipping hand hygiene","Reusing contaminated equipment","Hand hygiene","Ignoring PPE"],
+answer:2
+}
+
+];
+
+}
+
+
+/* MANAGE NOTES */
+
+async function loadManageNotes(){
+
+if(!isAdmin())return;
+
+const list=document.getElementById("manageNotesList");
+
+list.innerHTML=
+'<div class="empty">Loading notes...</div>';
+
+const {data,error}=
+await supabaseClient
+.from("notes")
+.select(`
+id,
+title,
+content,
+published,
+file_path,
+course_id,
+created_at,
+updated_at,
+courses(id,name)
+`)
+.order("created_at",{ascending:false});
+
+if(error){
+
+console.error(error);
+
+list.innerHTML=
+'<div class="empty">Unable to load notes.</div>';
+
+return;
+
+}
+
+if(!data?.length){
+
+list.innerHTML=
+'<div class="empty">You have not uploaded any notes yet.</div>';
+
+return;
+
+}
+
+list.innerHTML="";
+
+data.forEach(note=>{
+
+const card=document.createElement("div");
+
+card.className="manage-note";
+
+card.innerHTML=`
+
+<div class="manage-note-top">
+
+<div class="note-icon">
+<i class="fa-solid ${note.file_path?"fa-file-pdf":"fa-file-lines"}"></i>
+</div>
+
+<div class="manage-note-info">
+
+<div class="manage-note-title">
+${escapeHTML(note.title)}
+</div>
+
+<div class="manage-note-meta">
+
+Course:
+${escapeHTML(note.courses?.name||"No course")}
+
+<br>
+
+${note.file_path?"Attached file":"Text note"}
+
+</div>
+
+<span class="status-badge ${
+note.published
+?"status-published"
+:"status-draft"
+}">
+${note.published?"PUBLISHED":"DRAFT"}
+</span>
+
+</div>
+
+</div>
+
+<div class="manage-actions">
+
+<button
+class="publish-btn"
+onclick="togglePublish(${note.id},${!note.published})">
+
+<i class="fa-solid ${
+note.published
+?"fa-eye-slash"
+:"fa-eye"
+}"></i>
+
+${note.published?"Unpublish":"Publish"}
+
+</button>
+
+<button onclick="toggleEditPanel(${note.id})">
+
+<i class="fa-solid fa-pen"></i>
+Edit
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteNote(${note.id})">
+
+<i class="fa-solid fa-trash"></i>
+Delete
+
+</button>
+
+${
+note.file_path
+?`
+<button
+onclick="openAdminNoteFile('${encodeURIComponent(note.file_path)}')">
+
+<i class="fa-solid fa-file-arrow-up"></i>
+Open file
+
+</button>
+`
+:""
+}
+
+</div>
+
+<div id="edit-${note.id}" class="edit-panel">
+
+<div class="form-group">
+
+<label>Note title</label>
+
+<input
+id="edit-title-${note.id}"
+class="input"
+value="${escapeHTML(note.title)}">
+
+</div>
+
+<div class="form-group">
+
+<label>Course</label>
+
+<select id="edit-course-${note.id}">
+<option value="">No course</option>
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Note content</label>
+
+<textarea
+id="edit-content-${note.id}"
+style="min-height:120px;">${escapeHTML(note.content||"")}</textarea>
+
+</div>
+
+<div class="form-actions">
+
+<button
+class="secondary-button"
+onclick="toggleEditPanel(${note.id})">
+
+Cancel
+
+</button>
+
+<button
+class="primary-button"
+onclick="saveNoteEdit(${note.id})">
+
+Save changes
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+list.appendChild(card);
+
+loadEditCourseSelect(
+note.id,
+note.course_id
+);
+
+});
+
+}
+
+
+async function loadEditCourseSelect(noteId,currentCourseId){
+
+const select=
+document.getElementById(
+"edit-course-"+noteId
+);
+
+if(!select)return;
+
+const {data,error}=
+await supabaseClient
+.from("courses")
+.select("id,name")
+.order("name");
+
+if(error)return;
+
+(data||[]).forEach(course=>{
+
+const option=document.createElement("option");
+
+option.value=course.id;
+option.textContent=course.name;
+
+if(Number(currentCourseId)===Number(course.id))
+option.selected=true;
+
+select.appendChild(option);
+
+});
+
+}
+
+
+function toggleEditPanel(id){
+
+const panel=document.getElementById(
+"edit-"+id
+);
+
+if(!panel)return;
+
+panel.classList.toggle("active");
+
+}
+
+
+async function saveNoteEdit(id){
+
+if(!isAdmin())return;
+
+const title=
+document.getElementById(
+"edit-title-"+id
+).value.trim();
+
+const courseValue=
+document.getElementById(
+"edit-course-"+id
+).value;
+
+const content=
+document.getElementById(
+"edit-content-"+id
+).value.trim();
+
+if(!title){
+
+alert("Note title cannot be empty.");
+return;
+
+}
+
+const {error}=
+await supabaseClient
+.from("notes")
+.update({
+
+title:title,
+course_id:
+courseValue
+?Number(courseValue)
+:null,
+content:content,
+updated_at:new Date().toISOString()
+
+})
+.eq("id",id);
+
+if(error){
+
+alert("Unable to update note: "+error.message);
+return;
+
+}
+
+alert("Note updated successfully.");
+
+loadManageNotes();
+loadNotes();
+
+}
+
+
+async function togglePublish(id,newStatus){
+
+if(!isAdmin())return;
+
+if(!confirm(
+newStatus
+?"Publish this note?"
+:"Unpublish this note?"
+))return;
+
+const {error}=
+await supabaseClient
+.from("notes")
+.update({
+
+published:newStatus,
+updated_at:new Date().toISOString()
+
+})
+.eq("id",id);
+
+if(error){
+
+alert("Unable to change publication status: "+error.message);
+return;
+
+}
+
+loadManageNotes();
+loadNotes();
+
+}
+
+
+async function deleteNote(id){
+
+if(!isAdmin())return;
+
+if(!confirm(
+"This will permanently delete the note. Continue?"
+))return;
+
+const {data,error:findError}=
+await supabaseClient
+.from("notes")
+.select("file_path")
+.eq("id",id)
+.maybeSingle();
+
+if(findError){
+
+alert("Unable to find note: "+findError.message);
+return;
+
+}
+
+const {error}=
+await supabaseClient
+.from("notes")
+.delete()
+.eq("id",id);
+
+if(error){
+
+alert("Unable to delete note: "+error.message);
+return;
+
+}
+
+if(data?.file_path){
+
+await supabaseClient
+.storage
+.from(STORAGE_BUCKET)
+.remove([data.file_path]);
+
+}
+
+alert("Note deleted successfully.");
+
+loadManageNotes();
+loadNotes();
+loadAdminStats();
+
+}
+
+
+async function openAdminNoteFile(encodedPath){
+
+const path=decodeURIComponent(encodedPath);
+
+const {data,error}=
+await supabaseClient
+.storage
+.from(STORAGE_BUCKET)
+.createSignedUrl(path,3600);
+
+if(error){
+
+alert("Unable to open file: "+error.message);
+return;
+
+}
+
+if(data?.signedUrl)
+window.open(data.signedUrl,"_blank");
+
+}
+
+
+/* STUDENT MANAGEMENT */
+
+async function loadStudents(){
+
+if(!isAdmin())return;
+
+const list=document.getElementById("studentsList");
+
+list.innerHTML=
+'<div class="empty">Loading students...</div>';
+
+const {data,error}=
+await supabaseClient
+.from("profiles")
+.select("id,full_name,role,is_admin,created_at")
+.order("created_at",{ascending:false});
+
+if(error){
+
+console.error(error);
+
+list.innerHTML=
+'<div class="empty">Unable to load students.</div>';
+
+return;
+
+}
+
+if(!data?.length){
+
+list.innerHTML=
+'<div class="empty">No registered profiles found.</div>';
+
+return;
+
+}
+
+list.innerHTML="";
+
+data.forEach(student=>{
+
+const card=document.createElement("div");
+
+card.className="student-card";
+
+const name=
+student.full_name||
+"Unnamed student";
+
+const initials=
+name
+.split(" ")
+.filter(Boolean)
+.slice(0,2)
+.map(x=>x[0])
+.join("")
+.toUpperCase();
+
+const admin=
+student.role==="admin"||
+student.is_admin===true;
+
+const date=
+student.created_at
+?new Date(student.created_at)
+.toLocaleDateString()
+:"—";
+
+card.innerHTML=`
+
+<div class="student-top">
+
+<div class="student-avatar">
+${escapeHTML(initials||"S")}
+</div>
+
+<div class="student-info">
+
+<div class="student-name">
+${escapeHTML(name)}
+</div>
+
+<div class="student-meta">
+Registered ${escapeHTML(date)}
+</div>
+
+</div>
+
+</div>
+
+<div class="student-badges">
+
+<span class="badge ${
+admin?"badge-admin":"badge-student"
+}">
+${admin?"ADMIN":"STUDENT"}
+</span>
+
+<span class="badge badge-student">
+ID: ${escapeHTML(student.id.substring(0,8))}...
+</span>
+
+</div>
+
+`;
+
+list.appendChild(card);
+
+});
+
+}
+
+
+/* ADMIN STATS */
+
+async function loadAdminStats(){
+
+if(!isAdmin())return;
+
+const [
+courses,
+notes,
+questions,
+attempts,
+students
+]=await Promise.all([
+
+supabaseClient
+.from("courses")
+.select("id",{count:"exact",head:true}),
+
+supabaseClient
+.from("notes")
+.select("id",{count:"exact",head:true}),
+
+supabaseClient
+.from("quiz_questions")
+.select("id",{count:"exact",head:true}),
+
+supabaseClient
+.from("quiz_attempts")
+.select("id",{count:"exact",head:true}),
+
+supabaseClient
+.from("profiles")
+.select("id",{count:"exact",head:true})
+
+]);
+
+document.getElementById("adminStats").innerHTML=`
+
+Students:
+<strong>${students.count||0}</strong>
+<br>
+
+Courses:
+<strong>${courses.count||0}</strong>
+<br>
+
+Notes:
+<strong>${notes.count||0}</strong>
+<br>
+
+Quiz questions:
+<strong>${questions.count||0}</strong>
+<br>
+
+Quiz attempts:
+<strong>${attempts.count||0}</strong>
+
+`;
+
+}
+
+
+/* ADD QUESTION */
+
+async function addQuestion(){
+
+if(!isAdmin())return;
+
+const question=
+document.getElementById("quizQuestionInput")
+.value.trim();
+
+const options=[
+
+document.getElementById("optionA").value.trim(),
+document.getElementById("optionB").value.trim(),
+document.getElementById("optionC").value.trim(),
+document.getElementById("optionD").value.trim()
+
+];
+
+const answer=
+Number(
+document.getElementById("correctAnswer").value
+);
+
+const published=
+document.getElementById("publishQuestion").checked;
+
+if(!question||options.some(x=>!x)){
+
+alert("Complete the question and all four options.");
+return;
+
+}
+
+const {error}=
+await supabaseClient
+.from("quiz_questions")
+.insert({
+
+question:question,
+options:options,
+answer:answer,
+published:published,
+created_by:currentUser.id
+
+});
+
+if(error){
+
+alert("Unable to save question: "+error.message);
+return;
+
+}
+
+document.getElementById("quizQuestionInput").value="";
+document.getElementById("optionA").value="";
+document.getElementById("optionB").value="";
+document.getElementById("optionC").value="";
+document.getElementById("optionD").value="";
+document.getElementById("correctAnswer").value="0";
+document.getElementById("publishQuestion").checked=false;
+
+alert("Question saved successfully.");
+
+hideAdminForms();
+loadAdminStats();
+
+}
+
+
+/* ESCAPE */
+
+function escapeHTML(value){
+
+return String(value||"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* AUTH STATE */
+
+supabaseClient.auth.onAuthStateChange(
+async(event,session)=>{
+
+if(session){
+
+currentUser=session.user;
+
+document.querySelector(".app-header").style.display="";
+document.querySelector(".bottom-nav").style.display="";
+
+await ensureProfile();
+await loadProfile();
+
+}else{
+
+currentUser=null;
+currentProfile=null;
+
+document.querySelector(".app-header").style.display="none";
+document.querySelector(".bottom-nav").style.display="none";
+
+}
+
+}
+);
+
+
+/* START */
+
+document.querySelector(".app-header").style.display="none";
+document.querySelector(".bottom-nav").style.display="none";
+
+checkSession();
+
+</script>
+
+</body>
+</html>
