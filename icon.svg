@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="110" fill="#0B6E69"/>
+
+  <!-- Open book -->
+  <path
+    d="M92 164
+       C145 145 195 150 256 184
+       C317 150 367 145 420 164
+       V363
+       C367 345 317 350 256 382
+       C195 350 145 345 92 363 Z"
+    fill="#FFFFFF"/>
+
+  <!-- Book centre -->
+  <path
+    d="M256 184 V382"
+    stroke="#0B6E69"
+    stroke-width="13"
+    stroke-linecap="round"/>
+
+  <!-- Nursing staff / medical symbol -->
+  <path
+    d="M256 91
+       V151
+       M226 121
+       H286"
+    stroke="#FFFFFF"
+    stroke-width="18"
+    stroke-linecap="round"/>
+
+  <path
+    d="M256 205
+       C235 205 220 220 220 241
+       C220 266 238 283 256 303
+       C274 283 292 266 292 241
+       C292 220 277 205 256 205 Z"
+    fill="#0B6E69"/>
+
+  <!-- Small medical cross -->
+  <path
+    d="M256 224 V257
+       M240 240 H272"
+    stroke="#FFFFFF"
+    stroke-width="9"
+    stroke-linecap="round"/>
+</svg>
