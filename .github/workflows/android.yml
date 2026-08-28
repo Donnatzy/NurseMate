@@ -28,6 +28,11 @@ jobs:
       - name: Install TypeScript
         run: npm install --save-dev typescript
 
+      - name: Build AdMob bridge
+        run: |
+          npm install --no-save esbuild
+          npx esbuild src/admob.ts --bundle --format=iife --platform=browser --outfile=nursemate-admob.js
+
       - name: Prepare web files
         run: npm run prepare:web
 
@@ -37,7 +42,7 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Configure AdMob test App ID
+      - name: Configure AdMob App ID
         working-directory: android
         run: |
           mkdir -p app/src/main/res/values
