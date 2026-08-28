@@ -1,13 +1,13 @@
 import { AdMob } from '@capacitor-community/admob';
 
-const TEST_BANNER_ID = 'ca-app-pub-3940256099942544/9214589741';
+const NURSEMATE_BANNER_ID = 'ca-app-pub-6797540694008479/4039709517';
 
 async function startAds() {
   try {
     await AdMob.initialize();
 
     await AdMob.showBanner({
-      adId: TEST_BANNER_ID,
+      adId: NURSEMATE_BANNER_ID,
       adSize: 'BANNER',
       position: 'BOTTOM_CENTER',
       margin: 0,
