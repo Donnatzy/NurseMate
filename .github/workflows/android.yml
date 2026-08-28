@@ -44,7 +44,7 @@ jobs:
 
           cat > app/src/main/res/values/admob.xml <<'EOF'
           <resources>
-              <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+              <string name="admob_app_id">ca-app-pub-6797540694008479~1560001354</string>
           </resources>
           EOF
 
