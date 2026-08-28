@@ -21,6 +21,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 24
+          cache: npm
 
       - name: Install dependencies
         run: npm install
@@ -31,7 +32,11 @@ jobs:
       - name: Build AdMob bridge
         run: |
           npm install --no-save esbuild
-          npx esbuild src/admob.ts --bundle --format=iife --platform=browser --outfile=nursemate-admob.js
+          npx esbuild src/admob.ts \
+            --bundle \
+            --format=iife \
+            --platform=browser \
+            --outfile=nursemate-admob.js
 
       - name: Prepare web files
         run: npm run prepare:web
@@ -59,15 +64,15 @@ jobs:
           manifest = Path("app/src/main/AndroidManifest.xml")
           text = manifest.read_text()
 
-          marker = 'com.google.android.gms.ads.APPLICATION_ID'
+          marker = "com.google.android.gms.ads.APPLICATION_ID"
 
           if marker not in text:
               text = text.replace(
-                  '</application>',
-                  '''<meta-data
+                  "</application>",
+                  """<meta-data
                   android:name="com.google.android.gms.ads.APPLICATION_ID"
                   android:value="@string/admob_app_id" />
-              </application>'''
+              </application>"""
               )
 
           manifest.write_text(text)
@@ -77,96 +82,125 @@ jobs:
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 --decode > nursemate-upload.keystore
+          python3 - <<'PY'
+          import os
+          import base64
+          import sys
 
-      - name: Create signing properties
+          data = os.environ.get("KEYSTORE_BASE64", "")
+
+          if not data:
+              print("ERROR: KEYSTORE_BASE64 secret is empty or missing.")
+              sys.exit(1)
+
+          # Remove spaces, line breaks and other whitespace
+          data = "".join(data.split())
+
+          # Restore Base64 padding if necessary
+          data += "=" * (-len(data) % 4)
+
+          try:
+              decoded = base64.b64decode(data, validate=True)
+          except Exception as e:
+              print("ERROR: KEYSTORE_BASE64 is not valid Base64.")
+              print(str(e))
+              sys.exit(1)
+
+          if len(decoded) == 0:
+              print("ERROR: Decoded keystore is empty.")
+              sys.exit(1)
+
+          with open("nursemate-upload.keystore", "wb") as f:
+              f.write(decoded)
+
+          print("Keystore restored successfully.")
+          print("Keystore size:", len(decoded), "bytes")
+          PY
+
+      - name: Verify signing keystore
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          keytool -list \
+            -keystore nursemate-upload.keystore \
+            -storepass "$KEYSTORE_PASSWORD" \
+            -alias "$KEY_ALIAS"
+
+      - name: Configure Android signing
         working-directory: android
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          cat > keystore.properties <<EOF
-          storeFile=../nursemate-upload.keystore
-          storePassword=$KEYSTORE_PASSWORD
-          keyAlias=$KEY_ALIAS
-          keyPassword=$KEY_PASSWORD
-          EOF
+          cp ../nursemate-upload.keystore app/nursemate-upload.keystore
 
-      - name: Configure release signing
-        working-directory: android
-        run: |
           python3 - <<'PY'
           from pathlib import Path
 
           gradle = Path("app/build.gradle")
           text = gradle.read_text()
 
-          signing = '''
-          def keystorePropertiesFile = rootProject.file("keystore.properties")
-          def keystoreProperties = new Properties()
+          signing_block = """
 
-          if (keystorePropertiesFile.exists()) {
-              keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-          }
-          '''
-
-          if "keystorePropertiesFile" not in text:
-              text = signing + "\n" + text
-
-          if "signingConfigs" not in text:
-              text = text.replace(
-                  "android {",
-                  '''android {
+          // NurseMate release signing
+          android {
               signingConfigs {
                   release {
-                      if (keystorePropertiesFile.exists()) {
-                          storeFile file(keystoreProperties['storeFile'])
-                          storePassword keystoreProperties['storePassword']
-                          keyAlias keystoreProperties['keyAlias']
-                          keyPassword keystoreProperties['keyPassword']
-                      }
+                      storeFile file("nursemate-upload.keystore")
+                      storePassword System.getenv("KEYSTORE_PASSWORD")
+                      keyAlias System.getenv("KEY_ALIAS")
+                      keyPassword System.getenv("KEY_PASSWORD")
                   }
               }
-          ''',
-                  1
-              )
 
-          text = text.replace(
-              "buildTypes {",
-              '''buildTypes {
+              buildTypes {
                   release {
                       signingConfig signingConfigs.release
                   }
-              ''',
-              1
-          )
+              }
+          }
+          """
+
+          if "nursemate-upload.keystore" not in text:
+              text += signing_block
 
           gradle.write_text(text)
           PY
 
-      - name: Build release APK
+      - name: Build signed release AAB
         working-directory: android
-        run: ./gradlew assembleRelease
-
-      - name: Build release AAB
-        working-directory: android
-        run: ./gradlew bundleRelease
-
-      - name: Find release files
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          find android -type f \\( -name "*.apk" -o -name "*.aab" \\) -print
+          ./gradlew bundleRelease
 
-      - name: Upload release APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: NurseMate-release-apk
-          path: android/app/build/outputs/apk/release/*.apk
-          if-no-files-found: error
+      - name: Build debug APK
+        working-directory: android
+        run: |
+          ./gradlew assembleDebug
+
+      - name: Find Android files
+        run: |
+          echo "Android build files:"
+          find android/app/build/outputs \
+            -type f \
+            \( -name "*.aab" -o -name "*.apk" \) \
+            -print
 
       - name: Upload signed AAB
         uses: actions/upload-artifact@v4
         with:
-          name: NurseMate-release-aab
+          name: NurseMate-release-AAB
           path: android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: error
+
+      - name: Upload APK backup
+        uses: actions/upload-artifact@v4
+        with:
+          name: NurseMate-debug-APK
+          path: android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
