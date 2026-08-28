@@ -34,43 +34,18 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Configure AdMob test App ID
+      - name: Add AdMob App ID
         working-directory: android
         run: |
           mkdir -p app/src/main/res/values
 
-          if [ ! -f app/src/main/res/values/strings.xml ]; then
-            printf '%s\n' '<resources></resources>' > app/src/main/res/values/strings.xml
-          fi
+          cat > app/src/main/res/values/admob.xml <<'EOF'
+          <resources>
+              <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+          </resources>
+          EOF
 
-          python3 - <<'PY'
-          from pathlib import Path
-
-          strings = Path("app/src/main/res/values/strings.xml")
-          text = strings.read_text()
-
-          if 'name="admob_app_id"' not in text:
-              text = text.replace(
-                  "</resources>",
-                  '    <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>\n</resources>'
-              )
-
-          strings.write_text(text)
-
-          manifest = Path("app/src/main/AndroidManifest.xml")
-          text = manifest.read_text()
-
-          if "com.google.android.gms.ads.APPLICATION_ID" not in text:
-              text = text.replace(
-                  "</application>",
-                  '''    <meta-data
-          android:name="com.google.android.gms.ads.APPLICATION_ID"
-          android:value="@string/admob_app_id" />
-      </application>'''
-              )
-
-          manifest.write_text(text)
-          PY
+          sed -i 's|</application>|<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="@string/admob_app_id" />\n</application>|' app/src/main/AndroidManifest.xml
 
       - name: Build debug APK
         working-directory: android
